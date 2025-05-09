@@ -8,6 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useRouter } from "next/navigation";
 type repo = {
   id: number;
   price: number;
@@ -16,7 +17,8 @@ type repo = {
 };
 
 const DataFetching =() => {
-    const [product,setProduct]=useState<repo[]>([])
+    const [product,setProduct]=useState<repo[]>([]);
+    const router=useRouter();
 
      async function dataextract(){
          const res = await fetch("https://api.escuelajs.co/api/v1/products");
@@ -32,6 +34,11 @@ const DataFetching =() => {
   useEffect(()=>{
     dataextract()
   },[])
+
+  function cardHandler(id:number){
+    console.log(id);
+    router.push(`/pages/product/${id}`)
+  }
 
   return (
     <>
@@ -53,7 +60,7 @@ const DataFetching =() => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Share</Button>
+                <Button size="small" onClick={()=>cardHandler(item.id)}>Share</Button>
                 <Button size="small">Learn More</Button>
               </CardActions>
             </Card>
